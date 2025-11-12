@@ -14,25 +14,23 @@ jobs:
         with:
             fetch-depth: 0  # důležité pro získání všech tagů
             persist-credentials: false
-            
-      - name: Test secret load
-        env:
-          GH_PAT: ${{ secrets.GH_PAT }}
-        run: |
-          if [ -z "$GH_PAT" ]; then
-            echo "❌ Secret GH_PAT není načten!"
-            exit 1
-          else
-            echo "✅ GH_PAT načten, délka: ${#GH_PAT} znaků"
-          fi
-          
-      - name: Debug GH_PAT
-        run: |
-            echo "PAT is set: ${#GH_PAT} characters"
-        env:
-            GH_PAT: ${{ secrets.GH_PAT }}
         
       - name: Set up Git user
         run: |
             git config user.name "github-actions"
             git config user.email "github-actions@github.com"
+
+      - name: Bump patch version
+        env:
+            GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+            git fetch --tags
+            LAST_TAG=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+            echo "Last tag: $LAST_TAG"
+            PATCH=$(( ${LAST_TAG##*.} + 1 ))
+            NEW_TAG="${LAST_TAG%.*}.$PATCH"
+            echo "New tag: $NEW_TAG"
+        
+            git remote set-url origin https://$GH_PAT@github.com/${GITHUB_REPOSITORY}.git
+            git tag $NEW_TAG
+            git push origin $NEW_TAG
