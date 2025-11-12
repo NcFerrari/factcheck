@@ -27,16 +27,13 @@ jobs:
         run: |
             git fetch --tags
             LAST_TAG=$(git describe --tags --abbrev=0 || echo "v0.0.0")
-            echo "Last tag: $LAST_TAG"
             PATCH=$(( ${LAST_TAG##*.} + 1 ))
             NEW_TAG="${LAST_TAG%.*}.$PATCH"
             echo "New tag: $NEW_TAG"
-            
             git config user.name "github-actions"
             git config user.email "github-actions@github.com"
-            
+            # GitHub přijímá formát: x-access-token:<PAT>
             git config credential.helper store
             echo "https://x-access-token:${GH_PAT}@github.com" > ~/.git-credentials
-            
             git tag $NEW_TAG
             git push origin $NEW_TAG
