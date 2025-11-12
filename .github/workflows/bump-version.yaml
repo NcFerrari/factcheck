@@ -13,6 +13,7 @@ jobs:
         uses: actions/checkout@v3
         with:
             fetch-depth: 0  # důležité pro získání všech tagů
+            persist-credentials: false
 
       - name: Check remote
         run: git remote -v
@@ -33,6 +34,7 @@ jobs:
             PATCH=$(( ${LAST_TAG##*.} + 1 ))
             NEW_TAG="${LAST_TAG%.*}.$PATCH"
             echo "New tag: $NEW_TAG"
-            git tag $NEW_TAG
+
+            # Nastavení PAT a push
             git remote set-url origin https://$GH_PAT@github.com/${GITHUB_REPOSITORY}.git
             git push origin $NEW_TAG
