@@ -42,7 +42,7 @@ jobs:
             NEW_TAG="${LAST_TAG%.*}.$PATCH"
             echo "New tag: $NEW_TAG"
             echo velikost pat = ${#GH_PAT}
-            echo pat = ${GH_PAT}
+            echo path = https://${GH_PAT}@github.com/${GITHUB_REPOSITORY}.git
         
             git remote set-url origin https://${GH_PAT}@github.com/${GITHUB_REPOSITORY}.git
             git tag $NEW_TAG
