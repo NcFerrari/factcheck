@@ -14,6 +14,9 @@ jobs:
         with:
             fetch-depth: 0  # důležité pro získání všech tagů
 
+      - name: Check remote
+        run: git remote -v
+        
       - name: Set up Git user
         run: |
             git config user.name "github-actions"
