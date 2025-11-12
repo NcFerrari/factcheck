@@ -44,5 +44,5 @@ jobs:
             echo velikost pat = ${#GH_PAT}
             echo pat = ${GH_PAT}
         
-            git remote set-url origin https://$GH_PAT@github.com/${GITHUB_REPOSITORY}.git
+            git remote set-url origin https://${GH_PAT}@github.com/${GITHUB_REPOSITORY}.git
             git tag $NEW_TAG
