@@ -21,7 +21,7 @@ jobs:
             TAG=$(git describe --tags --abbrev=0)
             VERSION=${TAG#v}
             echo "Aktuální tag: $TAG → verze: $VERSION"
-            sed -i "s|<version>.*</version>|<version>${VERSION}</version>|" pom.xml
+            sed -i "s|<version>.*</version>|<version>${VERSION}</version>|" backend/pom.xml
             echo "✅ pom.xml aktualizován"
 
       - name: Bump patch version
