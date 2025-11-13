@@ -1,11 +1,11 @@
 name: Frontend CI
 
-#on:
-#  push:
-#    branches:
-#      - main
-#  pull_request:
-#
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
 #jobs:
 #  build-frontend:
 #    runs-on: ubuntu-latest
