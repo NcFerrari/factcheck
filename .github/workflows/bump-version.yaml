@@ -14,12 +14,16 @@ jobs:
         with:
             fetch-depth: 0  # důležité pro získání všech tagů
             persist-credentials: false
-        
-      - name: Set up Git user
+
+      - name: Sync pom.xml version with latest tag
+        shell: bash
         run: |
-            git config user.name "github-actions"
-            git config user.email "github-actions@github.com"
-            
+            TAG=$(git describe --tags --abbrev=0)
+            VERSION=${TAG#v}
+            echo "Aktuální tag: $TAG → verze: $VERSION"
+            sed -i "s|<version>.*</version>|<version>${VERSION}</version>|" pom.xml
+            echo "✅ pom.xml aktualizován"
+
       - name: Bump patch version
         shell: bash
         env:
