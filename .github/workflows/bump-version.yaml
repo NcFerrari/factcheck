@@ -41,3 +41,23 @@ jobs:
             echo "https://x-access-token:${GH_PAT}@github.com" > ~/.git-credentials
             git tag $NEW_TAG
             git push origin $NEW_TAG
+            
+       - name: Set up JDK 21
+         uses: actions/setup-java@v3
+         with:
+           distribution: 'temurin'
+           java-version: '21'
+
+       - name: Build with Maven
+         working-directory: backend
+         run: mvn -B clean package
+         
+       - name: Run unit tests
+         working-directory: backend
+         run: mvn test
+
+       - name: Upload build artifact
+         uses: actions/upload-artifact@v3
+         with:
+           name: backend-jar
+           path: backend/target/*.jar
