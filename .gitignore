@@ -12,6 +12,8 @@
 /.settings/
 /bin/
 /out/
+/.env
+/backend/.env
 
 # Lombok generated files
 /lombok.config

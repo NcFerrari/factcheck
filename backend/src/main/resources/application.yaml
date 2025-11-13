@@ -1,6 +1,53 @@
 spring:
   application:
     name: fact-checking
+  profiles:
+    active: dev
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+    import: optional:classpath:application-common.yml
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  logging:
+    level:
+      root: INFO
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+    import: optional:classpath:application-common.yml
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  logging:
+    level:
+      org.springframework: INFO
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+    import: optional:classpath:application-common.yml
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  logging:
+    level:
+      org.springframework: WARN
