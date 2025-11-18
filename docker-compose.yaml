@@ -13,6 +13,24 @@ services:
     networks:
       - factcheck-net
 
+  backend:
+    build:
+      context: ./backend
+    container_name: factcheck-backend
+    env_file:
+      - .env
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DB_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    networks:
+      - factcheck-net
+
 volumes:
   postgres-data:
 
